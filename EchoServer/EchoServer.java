@@ -50,6 +50,7 @@ public class EchoServer {
         var serverMsg = scannerServer.nextLine();
         writer.println(serverMsg);
         writer.flush();
+        System.out.printf("Отправлено: %s%n", serverMsg);
 
       }
     } catch (NoSuchElementException ex) {
