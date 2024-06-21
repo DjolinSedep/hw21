@@ -2,6 +2,7 @@ package month6.Echo.EchoServer;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.NoSuchElementException;
@@ -33,7 +34,11 @@ public class EchoServer {
   private void handle(Socket socket) throws IOException {
     var input = socket.getInputStream();
     var isr = new InputStreamReader(input, "UTF-8");
-    try (var scanner = new Scanner(isr)) {
+    var scanner = new Scanner(isr);
+    var scannerServer = new Scanner(System.in);
+    var output = socket.getOutputStream();
+    var writer = new PrintWriter(output);
+    try (scannerServer; scanner) {
       while (true) {
         var message = scanner.nextLine().strip();
         var msgReversed = reverseMessage(message);
@@ -42,6 +47,10 @@ public class EchoServer {
           System.out.println("Bye bye");
           return;
         }
+        var serverMsg = scannerServer.nextLine();
+        writer.println(serverMsg);
+        writer.flush();
+
       }
     } catch (NoSuchElementException ex) {
       System.out.println("Client dropped connection");
