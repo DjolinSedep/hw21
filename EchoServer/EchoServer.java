@@ -36,8 +36,9 @@ public class EchoServer {
     try (var scanner = new Scanner(isr)) {
       while (true) {
         var message = scanner.nextLine().strip();
-        System.out.printf("Got: %s%n", message);
-        if (message.toLowerCase().equals("bye")) {
+        var msgReversed = reverseMessage(message);
+        System.out.printf("Got: %s%n", msgReversed);
+        if (message.equalsIgnoreCase("bye")) {
           System.out.println("Bye bye");
           return;
         }
@@ -45,5 +46,10 @@ public class EchoServer {
     } catch (NoSuchElementException ex) {
       System.out.println("Client dropped connection");
     }
+  }
+
+  private String reverseMessage(String str){
+    StringBuilder reversed = new StringBuilder(str);
+    return reversed.reverse().toString();
   }
 }
