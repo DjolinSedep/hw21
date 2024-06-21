@@ -1,6 +1,8 @@
 package month6.Echo.EchoClient;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.NoSuchElementException;
@@ -25,16 +27,20 @@ public class EchoClient {
     try (var socket = new Socket(host, port)) {
       var scanner = new Scanner(System.in, "UTF-8");
       var output = socket.getOutputStream();
+      var input = socket.getInputStream();
       var writer = new PrintWriter(output);
-      try (scanner; writer) {
+      var isr = new InputStreamReader(input, "UTF-8");
+      var clientScanner = new Scanner(isr);
+      try (scanner; clientScanner; writer) {
         while (true) {
           String message = scanner.nextLine();
           writer.write(message);
           writer.write(System.lineSeparator());
           writer.flush();
-          if ("bye".equals(message.toLowerCase())) {
+          if ("bye".equalsIgnoreCase(message)) {
             return;
           }
+
         }
       }
     } catch (NoSuchElementException ex) {

@@ -48,8 +48,11 @@ public class EchoServer {
           return;
         }
         var serverMsg = scannerServer.nextLine();
-        writer.println(serverMsg);
+        writer.write(serverMsg);
+        writer.write(System.lineSeparator());
         writer.flush();
+
+
         System.out.printf("Отправлено: %s%n", serverMsg);
 
       }
