@@ -40,7 +40,8 @@ public class EchoClient {
           if ("bye".equalsIgnoreCase(message)) {
             return;
           }
-
+          var serverMessage = clientScanner.nextLine().strip();
+          System.out.printf("Got %s%n", serverMessage);
         }
       }
     } catch (NoSuchElementException ex) {
